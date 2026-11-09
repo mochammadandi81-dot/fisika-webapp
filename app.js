@@ -871,7 +871,9 @@ function setPracticeControls(setup) {
     document.getElementById(`practice-mass-${id}`).value = String(body.mass);
     document.getElementById(`practice-velocity-${id}`).value = String(body.speed);
     document.querySelectorAll(`.practice-direction[data-object="${id}"]`).forEach(button => {
-      button.classList.toggle('active', Number(button.dataset.direction) === body.direction);
+      const active = Number(button.dataset.direction) === body.direction;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
     });
   });
 }
@@ -904,7 +906,9 @@ document.querySelectorAll('#practice-controls input').forEach(input => {
 });
 document.querySelectorAll('.practice-direction').forEach(button => button.addEventListener('click', () => {
   document.querySelectorAll(`.practice-direction[data-object="${button.dataset.object}"]`).forEach(item => {
-    item.classList.toggle('active', item === button);
+    const active = item === button;
+    item.classList.toggle('active', active);
+    item.setAttribute('aria-pressed', String(active));
   });
   updatePracticePreview();
 }));
