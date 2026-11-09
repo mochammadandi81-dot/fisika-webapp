@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7ef" />
+    <meta name="description" content="Jelajahi hubungan massa, kecepatan, dan momentum melalui simulasi interaktif." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Momentum — Lab Fisika Interaktif</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navigasi utama">
+        <a class="brand" href="#beranda" data-go="beranda" aria-label="Momentum, beranda">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
+          <span>momentum<span class="brand-dot">.</span><small>LAB FISIKA</small></span>
+        </a>
+        <p class="nav-caption">RUANG BELAJAR</p>
+        <nav class="main-nav">
+          <a class="nav-link active" href="#beranda" data-page="beranda"><span class="nav-icon">⌂</span>Beranda</a>
+          <a class="nav-link" href="#simulasi" data-page="simulasi"><span class="nav-icon">◉</span>Simulasi</a>
+          <a class="nav-link" href="#problem" data-page="problem"><span class="nav-icon">⌕</span>Problem solving</a>
+          <a class="nav-link" href="#grafik" data-page="grafik"><span class="nav-icon">⌁</span>Grafik & data</a>
+          <a class="nav-link" href="#kuis" data-page="kuis"><span class="nav-icon">▤</span>Kuis diagnostik</a>
+          <a class="nav-link teacher-only" href="#guru" data-page="guru"><span class="nav-icon">⚙</span>Panel guru</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="offline-card"><span class="status-dot"></span><span><strong>Siap belajar offline</strong><small>Progres tersimpan di perangkat</small></span></div>
+          <a class="nav-link" href="#panduan" data-page="panduan"><span class="nav-icon">?</span>Panduan belajar</a>
+          <div class="profile"><div class="avatar" id="profile-avatar">S</div><span><strong id="profile-name">Pelajar</strong><small id="profile-role">Siswa</small></span><button class="logout-button" id="logout-button" type="button">Keluar</button></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Ruang belajar</span><span class="crumb-slash">/</span><strong id="current-section">Beranda</strong></div>
+          <div class="top-actions">
+            <span class="offline-label"><span class="status-dot"></span>Mode belajar</span>
+            <button id="install-button" class="install-button" type="button" hidden><span>↓</span> Pasang aplikasi</button>
+            <button class="help-button" type="button" data-go="panduan" aria-label="Buka panduan">?</button>
+          </div>
+        </header>
+
+        <section class="page active" id="page-beranda" data-title="Beranda">
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-line"></span>FISIKA · KELAS XI</p>
+              <h1>Momentum, <em>dalam gerak.</em></h1>
+              <p class="welcome-copy">Ubah variabelnya. Amati dampaknya. Temukan sendiri bagaimana gerak dan massa membentuk momentum.</p>
+            </div>
+            <div class="date-pill"><span class="sun-icon">☼</span> LAB INTERAKTIF <span class="date-divider"></span> 01 / 03</div>
+          </div>
+
+          <div class="student-gate panel" id="student-gate" hidden>
+            <div class="gate-top"><span class="prediction-icon">✳</span><div><span class="panel-kicker">TANTANGAN PEMBUKA · 3 PREDIKSI WAJIB</span><h2 id="entry-heading">Mulai dengan sebuah prediksi.</h2><p id="entry-progress">Pertanyaan 1 dari 3</p><p id="entry-question">Memuat pertanyaan dari guru…</p></div></div>
+            <div class="gate-options" id="entry-options"></div>
+            <div class="gate-bottom"><label for="entry-reason">Alasan prediksimu<select id="entry-reason"><option value="">Pilih alasan yang paling sesuai…</option><option value="mass">Momentum dipengaruhi massa dan kecepatan.</option><option value="speed">Momentum sebanding dengan kecepatan jika massa tetap.</option><option value="direction">Arah momentum mengikuti arah kecepatan.</option><option value="collision">Momentum total sistem kekal saat tumbukan.</option><option value="guess">Saya masih ingin menguji prediksi ini.</option></select></label><button class="primary-button" id="submit-entry" type="button">Kirim prediksi <span>→</span></button></div>
+            <p class="gate-feedback" id="entry-feedback" aria-live="polite"></p>
+            <p class="gate-note" id="gate-note">Prediksi tidak harus langsung benar—yang penting kamu berani mencoba dan membandingkannya dengan hasil eksperimen.</p>
+          </div>
+          <div class="panel prediction-results" id="prediction-results" hidden><div class="panel-heading"><div><span class="panel-kicker">CATATAN BELAJARMU</span><h2>Hasil 3 prediksi pembuka</h2></div><span class="prediction-score" id="prediction-score"></span></div><div id="prediction-result-list"></div></div>
+
+          <div class="hero-card">
+            <div class="hero-copy">
+              <span class="chapter-label"><span class="chapter-dot"></span> BAB 01 <span>·</span> BESARAN VEKTOR</span>
+              <h2>Seberapa besar<br />pengaruh sebuah <em>gerak?</em></h2>
+              <p>Momentum bukan sekadar seberapa cepat benda bergerak. Massa dan arah ikut bercerita.</p>
+              <button class="primary-button" type="button" data-go="simulasi">Mulai eksplorasi <span>↗</span></button>
+            </div>
+            <div class="hero-visual" aria-label="Ilustrasi dua benda dan vektor momentum">
+              <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+              <div class="hero-vector"><span></span><b>p = mv</b></div>
+              <div class="hero-object object-large"><i></i></div>
+              <div class="hero-object object-small"><i></i></div>
+              <span class="hero-label label-mass">MASSA <b>×</b> KECEPATAN</span>
+              <span class="hero-label label-p">MOMENTUM <b>→</b></span>
+              <span class="star star-one">✳</span><span class="star star-two">✳</span>
+            </div>
+            <span class="hero-index">p = m · v</span>
+          </div>
+
+          <div class="section-heading">
+            <div><p class="eyebrow">PETA BELAJAR</p><h2>Mulai dari rasa ingin tahu.</h2></div>
+            <span class="progress-label"><span id="completed-count">0</span> dari 4 aktivitas selesai</span>
+          </div>
+          <div class="learning-grid">
+            <button class="learning-card" type="button" data-go="simulasi">
+              <span class="card-number">01</span><span class="card-icon icon-sim">↗</span><span class="card-arrow">↗</span>
+              <span class="card-copy"><strong>Simulasi interaktif</strong><small>Ubah massa & kecepatan</small></span>
+              <span class="card-progress"><i></i></span>
+            </button>
+            <button class="learning-card" type="button" data-go="grafik">
+              <span class="card-number">02</span><span class="card-icon icon-graph">⌁</span><span class="card-arrow">↗</span>
+              <span class="card-copy"><strong>Grafik & data</strong><small>Baca hubungan p dan v</small></span>
+              <span class="card-progress"><i></i></span>
+            </button>
+            <button class="learning-card" type="button" data-go="problem">
+              <span class="card-number">03</span><span class="card-icon icon-vector">⌕</span><span class="card-arrow">↗</span>
+              <span class="card-copy"><strong>Problem solving</strong><small>Pecahkan kasus momentum</small></span>
+              <span class="card-progress"><i></i></span>
+            </button>
+            <button class="learning-card" type="button" data-go="kuis">
+              <span class="card-number">04</span><span class="card-icon icon-quiz">✓</span><span class="card-arrow">↗</span>
+              <span class="card-copy"><strong>Kuis diagnostik</strong><small>Uji pemahamanmu</small></span>
+              <span class="card-progress"><i></i></span>
+            </button>
+          </div>
+          <div class="quote-strip"><span>“</span><p>Belajar fisika bukan hanya mencari jawaban. Ini tentang <em>menemukan pola</em> di baliknya.</p><span class="quote-credit">CATATAN LAB · 01</span></div>
+        </section>
+
+        <section class="page" id="page-simulasi" data-title="Simulasi interaktif">
+          <div class="page-intro"><p class="eyebrow"><span class="eyebrow-line"></span>AKTIVITAS 01 · INQUIRY & DISCOVERY</p><h1>Ubah variabelnya.<br /><em>Temukan polanya.</em></h1><p>Atur arah gerak, massa, dan kecepatan. Amati momentum sebelum dan sesudah kedua benda bertumbukan.</p></div>
+          <div class="lab-layout">
+            <div class="panel controls-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">KENDALI EKSPERIMEN</span><h2>Atur benda</h2></div><button class="reset-button" id="reset-sim" type="button" aria-label="Reset simulasi">↺</button></div>
+              <div class="object-controls">
+                <div class="object-title"><span class="object-dot dot-a"></span><strong>Benda A</strong><span class="object-tag">BIRU</span></div>
+                <label class="control-label" for="mass-a">Massa <output id="mass-a-value">2</output> <span>kg</span></label>
+                <input id="mass-a" type="range" min="1" max="10" value="2" step="1" />
+                <label class="control-label" for="velocity-a">Kecepatan <output id="velocity-a-value">4</output> <span>m/s</span></label>
+                <input id="velocity-a" type="range" min="0" max="10" value="4" step="1" />
+                <label class="direction-label" for="direction-a">Arah gerak</label>
+                <div class="direction-switch"><button type="button" class="direction active" data-object="a" data-direction="1">→ Kanan</button><button type="button" class="direction" data-object="a" data-direction="-1">← Kiri</button></div>
+              </div>
+              <div class="object-controls object-controls-b">
+                <div class="object-title"><span class="object-dot dot-b"></span><strong>Benda B</strong><span class="object-tag">KORAL</span></div>
+                <label class="control-label" for="mass-b">Massa <output id="mass-b-value">3</output> <span>kg</span></label>
+                <input id="mass-b" type="range" min="1" max="10" value="3" step="1" />
+                <label class="control-label" for="velocity-b">Kecepatan <output id="velocity-b-value">2</output> <span>m/s</span></label>
+                <input id="velocity-b" type="range" min="0" max="10" value="2" step="1" />
+                <label class="direction-label" for="direction-b">Arah gerak</label>
+                <div class="direction-switch"><button type="button" class="direction active" data-object="b" data-direction="1">→ Kanan</button><button type="button" class="direction" data-object="b" data-direction="-1">← Kiri</button></div>
+              </div>
+              <button id="run-simulation" class="primary-button run-button" type="button">Jalankan simulasi <span>→</span></button>
+            </div>
+            <div class="panel visualization-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">RUANG GERAK</span><h2>Amati momentumnya</h2></div><span class="live-badge"><i></i> LANGSUNG</span></div>
+              <div class="motion-stage">
+                <div class="stage-grid"></div>
+                <div class="motion-object motion-a" id="motion-a"><small class="motion-speed" id="speed-label-a">v = +4.00 m/s</small><span>A</span><i></i><small class="motion-equation" id="equation-label-a">p = +8.00 kg·m/s</small></div>
+                <div class="motion-object motion-b" id="motion-b"><small class="motion-speed" id="speed-label-b">v = +2.00 m/s</small><span>B</span><i></i><small class="motion-equation" id="equation-label-b">p = +6.00 kg·m/s</small></div>
+                <div class="stage-axis"><span>← KIRI</span><i></i><span>ARAH POSITIF · KANAN →</span></div>
+                  <div class="stage-caption">ILUSTRASI ARAH GERAK · PANTULAN ELASTIS</div>
+              </div>
+              <div class="momentum-results">
+                <div class="result-cell"><span class="result-name"><i class="result-dot dot-a"></i> Benda A</span><strong id="momentum-a">+8</strong><small>kg·m/s</small></div>
+                <div class="result-cell"><span class="result-name"><i class="result-dot dot-b"></i> Benda B</span><strong id="momentum-b">+6</strong><small>kg·m/s</small></div>
+                <div class="result-cell total-cell"><span class="result-name">Momentum total</span><strong id="momentum-total">+14</strong><small>kg·m/s</small></div>
+              </div>
+              <div class="equation-note"><span>p = m × v</span><p id="collision-note">Tanda kecepatan dan momentum menunjukkan arah gerak.</p></div>
+              <p class="simulation-feedback" id="simulation-feedback" aria-live="polite">Geser nilai massa atau kecepatan untuk mulai mengamati.</p>
+            </div>
+          </div>
+          <div class="bottom-actions"><button class="text-button" type="button" data-go="panduan">? Butuh petunjuk bertahap?</button><button class="next-button" type="button" data-go="grafik">Lanjut ke grafik <span>→</span></button></div>
+        </section>
+
+        <section class="page" id="page-grafik" data-title="Grafik & data">
+          <div class="page-intro"><p class="eyebrow"><span class="eyebrow-line"></span>AKTIVITAS 02 · REPRESENTASI GRAFIK</p><h1>Baca pola di balik<br /><em>garis lurus.</em></h1><p>Masukkan sendiri data massa dan kecepatan, hitung momentumnya, lalu amati titik-titik pada grafik.</p></div>
+          <div class="graph-layout">
+            <div class="panel graph-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">GRAFIK MOMENTUM · KECEPATAN</span><h2>Gambarkan data pengamatanmu</h2></div><span class="live-badge"><i></i> DATA MANUAL</span></div>
+              <div class="chart-wrap"><div class="chart-y-label">MOMENTUM (kg·m/s)</div><div class="chart"><div class="chart-grid"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><svg id="momentum-chart" viewBox="0 0 600 260" role="img" aria-label="Grafik momentum terhadap kecepatan"><line x1="30" y1="240" x2="580" y2="240" class="axis-line"/><line x1="30" y1="10" x2="30" y2="240" class="axis-line"/><path id="graph-line" d="M 30 240 L 580 240" class="graph-line"/><g id="graph-points"></g></svg><div class="chart-x-ticks"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span></div><div class="chart-x-label">KECEPATAN (m/s)</div></div></div>
+              <div class="graph-insight"><span class="insight-icon">↗</span><p id="graph-insight-text">Grafik dimulai dari garis dasar. Isi data pengamatanmu, lalu gambar titik-titiknya.</p><span class="slope-tag">DATA SISWA</span></div>
+            </div>
+            <div class="panel data-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">TABEL DATA</span><h2>Pasangan nilai</h2></div></div>
+              <div class="table-scroll"><table><thead><tr><th>v (m/s)</th><th>m (kg)</th><th>p (kg·m/s)</th></tr></thead><tbody id="data-table"></tbody></table></div>
+              <div class="graph-actions"><button class="text-button" id="clear-data" type="button">Kosongkan data</button><button class="primary-button" id="plot-data" type="button">Hitung & gambar <span>↗</span></button></div>
+              <p class="graph-entry-feedback" id="graph-entry-feedback" aria-live="polite"></p>
+              <div class="table-note"><span class="table-note-icon">i</span><p>Isi sendiri nilai kecepatan dan massa. Momentum dihitung dengan p = mv setelah kamu menekan Hitung & gambar.</p></div>
+            </div>
+          </div>
+          <div class="bottom-actions"><button class="text-button" type="button" data-go="simulasi">← Kembali ke simulasi</button><button class="next-button" type="button" data-go="kuis">Uji pemahamanmu <span>→</span></button></div>
+        </section>
+
+        <section class="page" id="page-problem" data-title="Problem solving">
+          <div class="page-intro"><p class="eyebrow"><span class="eyebrow-line"></span>AKTIVITAS · PEMECAHAN MASALAH</p><h1>Atur benda.<br /><em>Buktikan lewat gerak.</em></h1><p>Kerjakan dua tantangan dengan mengatur massa, kecepatan, dan arah benda. Periksa pengaturanmu untuk menjalankan simulasi tumbukan.</p></div>
+          <div class="problem-layout">
+            <div class="panel problem-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">TANTANGAN KASUS</span><h2 id="problem-title">Memuat kasus…</h2></div><label class="mass-selector" for="problem-case-select">Pilih kasus <select id="problem-case-select"></select></label></div>
+              <p class="problem-context" id="problem-context"></p>
+              <div class="problem-givens" id="problem-givens"></div>
+              <p class="problem-question" id="problem-question"></p>
+              <div class="practice-controls panel" id="practice-controls">
+                <div class="panel-heading"><div><span class="panel-kicker">KENDALI EKSPERIMEN</span><h2>Atur benda praktik</h2></div><button class="reset-button" id="practice-reset" type="button" aria-label="Reset pengaturan benda">↺</button></div>
+                <div class="object-controls">
+                  <div class="object-title"><span class="object-dot dot-a"></span><strong>Benda A</strong><span class="object-tag">BIRU</span></div>
+                  <label class="control-label" for="practice-mass-a">Massa <output id="practice-mass-a-value">2</output> <span>kg</span></label>
+                  <input id="practice-mass-a" type="range" min="1" max="10" value="2" step="1" />
+                  <label class="control-label" for="practice-velocity-a">Kecepatan <output id="practice-velocity-a-value">4</output> <span>m/s</span></label>
+                  <input id="practice-velocity-a" type="range" min="0" max="10" value="4" step="0.1" />
+                  <label class="direction-label">Arah gerak</label>
+                  <div class="direction-switch"><button type="button" class="practice-direction active" data-object="a" data-direction="1">→ Kanan</button><button type="button" class="practice-direction" data-object="a" data-direction="-1">← Kiri</button></div>
+                </div>
+                <div class="object-controls object-controls-b">
+                  <div class="object-title"><span class="object-dot dot-b"></span><strong>Benda B</strong><span class="object-tag">KORAL</span></div>
+                  <label class="control-label" for="practice-mass-b">Massa <output id="practice-mass-b-value">3</output> <span>kg</span></label>
+                  <input id="practice-mass-b" type="range" min="1" max="10" value="3" step="1" />
+                  <label class="control-label" for="practice-velocity-b">Kecepatan <output id="practice-velocity-b-value">2</output> <span>m/s</span></label>
+                  <input id="practice-velocity-b" type="range" min="0" max="10" value="2" step="0.1" />
+                  <label class="direction-label">Arah gerak</label>
+                  <div class="direction-switch"><button type="button" class="practice-direction active" data-object="b" data-direction="1">→ Kanan</button><button type="button" class="practice-direction" data-object="b" data-direction="-1">← Kiri</button></div>
+                </div>
+              </div>
+              <div class="practice-stage motion-stage" id="practice-stage">
+                <div class="stage-grid"></div>
+                <div class="motion-object motion-a practice-motion-object" id="practice-motion-a"><small class="motion-speed" id="practice-speed-a"></small><span>A</span><i></i><small class="motion-equation" id="practice-equation-a"></small></div>
+                <div class="motion-object motion-b practice-motion-object" id="practice-motion-b"><small class="motion-speed" id="practice-speed-b"></small><span>B</span><i></i><small class="motion-equation" id="practice-equation-b"></small></div>
+                <div class="stage-axis"><span>← KIRI</span><i></i><span>ARAH POSITIF · KANAN →</span></div>
+                <div class="stage-caption">PRAKTIK TUMBUKAN LENTING</div>
+              </div>
+              <div class="momentum-results practice-results">
+                <div class="result-cell"><span class="result-name"><i class="result-dot dot-a"></i> Momentum A</span><strong id="practice-momentum-a">+0.00</strong><small>kg·m/s</small></div>
+                <div class="result-cell"><span class="result-name"><i class="result-dot dot-b"></i> Momentum B</span><strong id="practice-momentum-b">+0.00</strong><small>kg·m/s</small></div>
+                <div class="result-cell total-cell"><span class="result-name">Momentum total</span><strong id="practice-momentum-total">+0.00</strong><small>kg·m/s</small></div>
+              </div>
+              <button class="primary-button run-button problem-check-button" id="problem-check-button" type="button">Periksa jawaban <span>→</span></button>
+              <div class="problem-feedback" id="problem-feedback" aria-live="polite"></div>
+              <div class="problem-solution" id="problem-solution" hidden></div>
+              <button class="next-button problem-next" id="problem-next" type="button" hidden>Latihan berikutnya <span>→</span></button>
+            </div>
+            <aside class="panel problem-aside"><span class="panel-kicker">LANGKAH PEMECAHAN</span><h3>Strategi sebelum menghitung</h3><ol><li>Bandingkan pengaturan benda dengan data tantangan.</li><li>Periksa massa, kecepatan, dan arah gerak masing-masing benda.</li><li>Tekan periksa jawaban untuk menguji pengaturanmu.</li><li>Amati perubahan kecepatan dan momentum setelah tumbukan.</li></ol><div class="aside-divider"></div><span class="panel-kicker">SIMULASI PRAKTIK</span><p>Jika pengaturan belum sesuai, sesuaikan benda lalu periksa kembali. Simulasi berjalan setelah semua data cocok.</p></aside>
+          </div>
+        </section>
+
+        <section class="page" id="page-kuis" data-title="Kuis diagnostik">
+          <div class="page-intro"><p class="eyebrow"><span class="eyebrow-line"></span>AKTIVITAS 04 · CEK PEMAHAMAN</p><h1>Yang penting bukan<br /><em>sekadar benar.</em></h1><p>Pilih jawaban, jelaskan alasanmu, dan tentukan tingkat keyakinanmu. Kita belajar dari prosesnya.</p></div>
+          <div class="quiz-layout">
+            <div class="panel quiz-panel">
+              <div class="quiz-progress"><span>SOAL <b id="question-number">01</b> / 10</span><div><i id="quiz-progress-bar"></i></div><span id="score-label">0 BENAR</span></div>
+              <div class="question-visual"><span class="quiz-object">A</span><div><span class="visual-arrow">p = m × v</span><small>Perhatikan data dan arah pada soal.</small></div><span class="visual-data">m = 2 kg<br />v = 3 m/s</span></div>
+              <h2 class="question-text" id="question-text">Berapakah momentum benda A?</h2>
+              <div class="answer-options" id="answer-options"></div>
+              <div class="reason-area"><label for="reason-select">Alasan yang paling sesuai</label><select id="reason-select"><option value="">Pilih alasanmu…</option><option value="formula">Momentum adalah hasil kali massa dan kecepatan.</option><option value="mass">Momentum hanya dipengaruhi massa benda.</option><option value="speed">Momentum hanya dipengaruhi kecepatan benda.</option><option value="direction">Momentum tidak memiliki arah.</option></select></div>
+              <div class="confidence-row"><span>Seberapa yakin dengan jawabanmu?</span><div class="confidence-options"><button type="button" data-confidence="1">Menebak</button><button type="button" data-confidence="2">Agak yakin</button><button type="button" data-confidence="3">Yakin</button></div></div>
+              <div id="quiz-feedback" class="quiz-feedback" aria-live="polite"></div>
+              <div class="quiz-footer"><span id="quiz-step-label">01 dari 03</span><button id="submit-answer" type="button" class="primary-button">Periksa jawaban <span>→</span></button><button id="next-question" type="button" class="primary-button" hidden>Lanjut <span>→</span></button></div>
+            </div>
+            <aside class="panel quiz-aside"><span class="aside-sparkle">✳</span><span class="panel-kicker">INGAT KEMBALI</span><h3>p = m × v</h3><p>Momentum dipengaruhi oleh massa dan kecepatan. Arahnya sama dengan arah kecepatan.</p><div class="aside-divider"></div><button type="button" class="text-button" data-go="panduan">Buka panduan konsep →</button></aside>
+          </div>
+          <div class="bottom-actions"><button class="text-button" type="button" data-go="grafik">← Kembali ke grafik</button><span class="progress-label">Maksimal 10 soal per kuis</span></div>
+        </section>
+
+        <section class="page" id="page-panduan" data-title="Panduan belajar">
+          <div class="page-intro"><p class="eyebrow"><span class="eyebrow-line"></span>RUANG BANTUAN · SCAFFOLDING SUPPORT</p><h1>Satu petunjuk<br /><em>dalam satu waktu.</em></h1><p>Petunjuk bertahap membantumu menemukan jawaban sendiri—bukan memberikan jawaban akhirnya.</p></div>
+          <div class="guide-layout">
+            <div class="panel guide-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">BANTUAN BERTAHAP</span><h2>Memahami momentum</h2></div><span class="guide-count" id="guide-count">LANGKAH 01 / 03</span></div>
+              <div class="guide-step-indicators"><i class="selected"></i><i></i><i></i></div>
+              <div class="guide-content"><span class="guide-icon" id="guide-icon">01</span><div><p class="panel-kicker" id="guide-kicker">LANGKAH PERTAMA</p><h3 id="guide-title">Mulai dari persamaannya.</h3><p id="guide-text">Momentum (p) adalah hasil kali antara massa (m) dan kecepatan (v). Persamaan ringkasnya adalah p = m × v.</p></div></div>
+              <div class="guide-example"><span>CONTOH</span><p id="guide-example">Benda bermassa 2 kg bergerak 3 m/s ke kanan. Momentumnya: p = 2 × 3 = +6 kg·m/s.</p></div>
+              <div class="guide-actions"><button id="guide-back" class="text-button" type="button" disabled>← Sebelumnya</button><button id="guide-next" class="primary-button" type="button">Petunjuk berikutnya <span>→</span></button></div>
+            </div>
+            <aside class="panel guide-aside"><span class="aside-sparkle">✳</span><span class="panel-kicker">PETUNJUK ADAPTIF</span><h3>Bingung di bagian mana?</h3><p>Pilih aktivitas yang ingin kamu pahami. Petunjuk akan membantumu selangkah demi selangkah.</p><button class="guide-topic active" type="button" data-topic="momentum"><span>01</span> Persamaan momentum <b>→</b></button><button class="guide-topic" type="button" data-topic="arah"><span>02</span> Arah & tanda <b>→</b></button><button class="guide-topic" type="button" data-topic="grafik"><span>03</span> Membaca grafik <b>→</b></button></aside>
+          </div>
+          <div class="bottom-actions"><button class="text-button" type="button" data-go="beranda">← Kembali ke beranda</button><button class="next-button" type="button" data-go="simulasi">Coba simulasinya <span>→</span></button></div>
+        </section>
+
+        <section class="page teacher-only" id="page-guru" data-title="Panel guru">
+          <div class="page-intro"><p class="eyebrow"><span class="eyebrow-line"></span>RUANG PENGELOLAAN KELAS</p><h1>Rancang pengalaman<br /><em>belajar siswa.</em></h1><p>Atur pertanyaan prediksi pembuka dan kelola kuis diagnostik hingga maksimal 10 soal.</p></div>
+          <div class="teacher-layout">
+            <div class="panel teacher-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">PREDIKSI WAJIB SISWA</span><h2>Pertanyaan pembuka</h2></div></div>
+              <div id="teacher-prediction-editors"></div>
+              <button id="save-entry-question" class="primary-button" type="button">Simpan pertanyaan <span>✓</span></button>
+            </div>
+            <div class="panel teacher-panel">
+              <div class="panel-heading"><div><span class="panel-kicker">KUIS DIAGNOSTIK · MAKSIMAL 10</span><h2>Atur jumlah soal</h2></div></div>
+              <label class="teacher-label" for="quiz-count-setting">Jumlah soal per kuis</label><select id="quiz-count-setting"><option value="1">1 soal</option><option value="2">2 soal</option><option value="3">3 soal</option><option value="4">4 soal</option><option value="5">5 soal</option><option value="6">6 soal</option><option value="7">7 soal</option><option value="8">8 soal</option><option value="9">9 soal</option><option value="10">10 soal · maksimal</option></select>
+              <p class="teacher-hint">Bank awal berisi 10 soal konseptual dan hitungan. Soal tambahan buatan guru akan menggantikan soal terakhir ketika kuis dibatasi 10.</p>
+            </div>
+            <div class="panel teacher-panel teacher-add-question">
+              <div class="panel-heading"><div><span class="panel-kicker">TAMBAHKAN SOAL SENDIRI</span><h2>Soal pilihan ganda</h2></div><span class="teacher-question-count" id="teacher-question-count">10 / 10</span></div>
+              <label class="teacher-label" for="teacher-quiz-prompt">Pertanyaan</label><textarea id="teacher-quiz-prompt" rows="2" placeholder="Tuliskan soal tentang momentum..."></textarea>
+              <div class="teacher-field-grid"><label class="teacher-label">Pilihan A<input id="teacher-option-a" maxlength="120" /></label><label class="teacher-label">Pilihan B<input id="teacher-option-b" maxlength="120" /></label><label class="teacher-label">Pilihan C<input id="teacher-option-c" maxlength="120" /></label><label class="teacher-label">Pilihan D<input id="teacher-option-d" maxlength="120" /></label></div>
+              <div class="teacher-field-grid"><label class="teacher-label" for="teacher-correct-option">Jawaban benar<select id="teacher-correct-option"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></label><label class="teacher-label" for="teacher-explanation">Umpan balik pembahasan<input id="teacher-explanation" maxlength="220" /></label></div>
+              <button id="add-teacher-question" class="primary-button" type="button">Tambah ke bank soal <span>+</span></button>
+              <div id="teacher-question-list" class="teacher-question-list"></div>
+            </div>
+            <div class="panel teacher-panel teacher-add-question">
+              <div class="panel-heading"><div><span class="panel-kicker">PROBLEM SOLVING · LATIHAN PRAKTIK</span><h2>Atur dua kasus tumbukan</h2></div></div>
+              <p class="teacher-hint">Siswa akan memprediksi kecepatan akhir benda A. Angka jawaban dihitung otomatis dari massa dan kecepatan awal yang kamu atur menggunakan persamaan tumbukan lenting.</p>
+              <div id="teacher-practice-editors"></div>
+              <button class="primary-button" id="save-practice-cases" type="button">Simpan dua latihan <span>✓</span></button>
+            </div>
+          </div>
+          <p class="local-demo-note">Mode prototipe lokal: akun dan pengaturan hanya tersedia di browser/perangkat ini. Untuk kelas lintas perangkat diperlukan backend.</p>
+        </section>
+
+        <footer class="app-footer"><span>Momentum Lab <span>·</span> Belajar dengan menemukan.</span><span>PROGRES BELAJAR DISIMPAN DI PERANGKAT INI</span></footer>
+      </main>
+    </div>
+    <section class="auth-screen" id="auth-screen" aria-label="Masuk ke Momentum Lab">
+      <form class="auth-card" id="auth-form">
+        <a class="brand auth-brand" href="#beranda"><span class="brand-mark" aria-hidden="true"><span></span><span></span></span><span>momentum<span class="brand-dot">.</span><small>LAB FISIKA</small></span></a>
+        <p class="eyebrow"><span class="eyebrow-line"></span>RUANG BELAJAR FISIKA</p><h1 id="auth-title">Selamat datang.</h1><p class="auth-subtitle" id="auth-subtitle">Masuk sebagai guru atau siswa untuk melanjutkan.</p>
+        <label class="teacher-label" for="auth-name" id="auth-name-label" hidden>Nama panggilan<input id="auth-name" autocomplete="name" maxlength="40" /></label>
+        <label class="teacher-label" for="auth-username">Nama pengguna<input id="auth-username" autocomplete="username" required minlength="3" maxlength="30" /></label>
+        <label class="teacher-label" for="auth-password">Kata sandi<input id="auth-password" type="password" autocomplete="current-password" required minlength="4" maxlength="100" /></label>
+        <label class="teacher-label" for="auth-role" id="auth-role-label">Masuk sebagai<select id="auth-role"><option value="siswa">Siswa</option><option value="guru">Guru</option></select></label>
+        <button class="primary-button auth-submit" id="auth-submit" type="submit">Masuk <span>→</span></button>
+        <p class="auth-error" id="auth-error" role="alert"></p><button class="auth-toggle" id="auth-toggle" type="button">Belum punya akun? Buat akun lokal</button>
+        <p class="local-demo-note">Prototipe lokal: akun tersimpan di browser ini dan belum tersinkron ke perangkat lain.</p>
+      </form>
+    </section>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
