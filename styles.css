@@ -256,7 +256,17 @@ body:not(.authenticated) .app-shell{visibility:hidden}
 .auth-submit{width:100%;justify-content:space-between;margin-top:8px;padding:12px 14px}
 .auth-error{min-height:15px;color:#a55f4d;font-size:10px;margin:9px 0;text-align:center}
 .auth-toggle{display:block;margin:10px auto 0;border:0;background:transparent;color:#55715a;font-size:10px;cursor:pointer}
+.auth-install-button{width:100%;height:37px;margin-top:12px;background:#f5f7f1;border-color:#dfe6dc;font-size:10px}
 .auth-card>.local-demo-note{text-align:center;border-top:1px solid #edf0e9;padding-top:12px;margin-top:19px}
+.install-dialog{width:min(390px,calc(100% - 32px));padding:25px;border:1px solid #e4e9e1;border-radius:12px;background:#fffefa;color:var(--ink);box-shadow:0 20px 60px rgba(34,49,38,.2)}
+.install-dialog::backdrop{background:rgba(32,42,39,.42);backdrop-filter:blur(3px)}
+.install-dialog form{position:absolute;top:11px;right:11px}
+.install-dialog-close{width:30px;height:30px;border:1px solid #e7ebe4;border-radius:50%;background:#fafbf8;color:#718075;font-size:20px;line-height:1;cursor:pointer}
+.install-dialog h2{max-width:290px;margin:9px 0 15px;font:500 21px/1.3 var(--serif)}
+.install-dialog ol{padding-left:22px;margin:0;color:#6d786f;font-size:11px;line-height:1.65}
+.install-dialog li{padding-left:4px;margin:8px 0}
+.install-dialog li::marker{color:#718b70;font-family:var(--mono)}
+.install-dialog-done{width:100%;justify-content:center;margin-top:18px}
 .page-intro{margin-bottom:21px}
 .practice-controls{padding:14px 18px;margin:12px 0 16px}
 .practice-controls .panel-heading{margin-bottom:10px}

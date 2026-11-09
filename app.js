@@ -1162,28 +1162,79 @@ document.getElementById('guide-next').addEventListener('click', () => {
 renderGuide();
 
 let installPrompt;
-const installButton = document.getElementById('install-button');
+const installButtons = [...document.querySelectorAll('.install-button')];
+const installHelp = document.getElementById('install-help');
+const installHelpTitle = document.getElementById('install-help-title');
+const installHelpSteps = document.getElementById('install-help-steps');
+let installationAccepted = false;
+const isIosDevice = () => /iPhone|iPad|iPod/.test(navigator.userAgent)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAppInstalled = () => window.matchMedia('(display-mode: standalone)').matches
+  || navigator.standalone === true;
+function updateInstallButtons() {
+  const ios = isIosDevice();
+  const showButton = !isAppInstalled() && !installationAccepted
+    && (Boolean(installPrompt) || ios || /Android/i.test(navigator.userAgent));
+  installButtons.forEach(button => {
+    button.hidden = !showButton;
+    button.innerHTML = ios
+      ? '<span aria-hidden="true">＋</span> Tambah ke layar utama'
+      : '<span aria-hidden="true">↓</span> Pasang aplikasi';
+  });
+}
+function showInstallHelp() {
+  const ios = isIosDevice();
+  installHelpTitle.textContent = ios
+    ? 'Tambahkan Momentum ke layar utama'
+    : 'Pasang Momentum dari menu browser';
+  const steps = ios
+    ? [
+        'Ketuk tombol Bagikan (ikon kotak dengan panah ke atas) di browser.',
+        'Pilih “Tambahkan ke Layar Utama”.',
+        'Ketuk “Tambahkan” untuk menyelesaikan pemasangan.'
+      ]
+    : [
+          'Buka menu browser dengan mengetuk ikon ⋮ di pojok kanan atas.',
+        'Pilih “Install app” atau “Tambahkan ke layar utama”.',
+        'Konfirmasi pemasangan pada dialog yang muncul.'
+      ];
+  installHelpSteps.replaceChildren(...steps.map(text => {
+    const item = document.createElement('li');
+    item.textContent = text;
+    return item;
+  }));
+  installHelp.showModal();
+}
+document.getElementById('install-help-close').addEventListener('click', () => installHelp.close());
 window.addEventListener('beforeinstallprompt', event => {
   event.preventDefault();
   installPrompt = event;
-  installButton.hidden = false;
+  updateInstallButtons();
 });
-installButton.addEventListener('click', async () => {
+installButtons.forEach(button => button.addEventListener('click', async () => {
   if (!installPrompt) {
-    showToast(/iPhone|iPad|iPod/.test(navigator.userAgent)
-      ? 'Di Safari, pilih Bagikan lalu Tambahkan ke Layar Utama.'
-      : 'Gunakan menu browser untuk memasang aplikasi.');
+    showInstallHelp();
     return;
   }
-  installPrompt.prompt();
-  await installPrompt.userChoice;
+  const prompt = installPrompt;
   installPrompt = null;
-  installButton.hidden = true;
-});
+  try {
+    await prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    installationAccepted = outcome === 'accepted';
+    if (installationAccepted) showToast('Konfirmasi pemasangan diterima.');
+    updateInstallButtons();
+  } catch (error) {
+    console.error('Prompt pemasangan aplikasi gagal:', error);
+    showInstallHelp();
+  }
+}));
 window.addEventListener('appinstalled', () => {
-  installButton.hidden = true;
+  installationAccepted = true;
+  updateInstallButtons();
   showToast('Momentum Lab berhasil dipasang.');
 });
+updateInstallButtons();
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(error => {
@@ -1191,8 +1242,6 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     });
   });
 }
-if (!window.matchMedia('(display-mode: standalone)').matches && navigator.standalone !== true
-  && /iPhone|iPad|iPod/.test(navigator.userAgent)) installButton.hidden = false;
 
 renderEntryQuestion();
 const savedUsername = localStorage.getItem(storage.session);

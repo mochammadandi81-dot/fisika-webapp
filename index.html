@@ -303,9 +303,17 @@
         <label class="teacher-label" for="auth-role" id="auth-role-label">Masuk sebagai<select id="auth-role"><option value="siswa">Siswa</option><option value="guru">Guru</option></select></label>
         <button class="primary-button auth-submit" id="auth-submit" type="submit">Masuk <span>→</span></button>
         <p class="auth-error" id="auth-error" role="alert"></p><button class="auth-toggle" id="auth-toggle" type="button">Belum punya akun? Buat akun lokal</button>
+        <button id="auth-install-button" class="install-button auth-install-button" type="button" hidden><span aria-hidden="true">↓</span> Pasang aplikasi</button>
         <p class="local-demo-note">Prototipe lokal: akun tersimpan di browser ini dan belum tersinkron ke perangkat lain.</p>
       </form>
     </section>
+    <dialog class="install-dialog" id="install-help" aria-labelledby="install-help-title">
+      <form method="dialog"><button class="install-dialog-close" aria-label="Tutup panduan pemasangan">×</button></form>
+      <span class="panel-kicker">MOMENTUM · APLIKASI WEB</span>
+      <h2 id="install-help-title"></h2>
+      <ol id="install-help-steps"></ol>
+      <button class="primary-button install-dialog-done" id="install-help-close" type="button">Mengerti</button>
+    </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script src="./app.js"></script>
   </body>
